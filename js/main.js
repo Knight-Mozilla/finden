@@ -39,6 +39,24 @@ $(function(){
 	map.on('click', onMapClick);
 			
 	function onMapClick(e) {
+	  
+	  
+	   
+	  /*
+	    the following is busted because dwix sends band the wrong headers
+	    
+	    response header is text / html
+	    i expect application / javascript
+	    bug filed at http://bit.ly/quGNx6
+	  
+	  $.getJSON('http://geoapi.fwix.com/content.json?api_key=1640a4cf9096&content_types=status_updates&lat=' + e.latlng.lat.toFixed(3) + '&lng=' + e.latlng.lng.toFixed(3) + '&radius=100&callback=?', function (data) {
+	  
+	     console.log( data.status_updates )
+	  
+	   });*/
+	  
+	  
+	  
 		var latlngStr = '(' + e.latlng.lat.toFixed(3) + ', ' + e.latlng.lng.toFixed(3) + ')';
 		circle.setLatLng( e.latlng )
 		
