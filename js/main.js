@@ -29,8 +29,8 @@ $(function(){
 	map.setView( new L.LatLng( 51.505, -0.09 ), 13 ).addLayer( cloudmade );
 	
 	var circleLocation = new L.LatLng(51.508, -0.11),
-		circleOptions = {color: '#f03', opacity: 0.7, weight:1},
-		circle = new L.Circle(circleLocation, 500, circleOptions);
+		circleOptions = {color: '#000', opacity: 0.5, weight:1},
+		circle = new L.Circle( circleLocation, 2000, circleOptions );
 	
 	circle.bindPopup("I am a circle.");
 	
@@ -43,10 +43,11 @@ $(function(){
 	  
 	   
 	  /*
-	    the following is busted because dwix sends band the wrong headers
+	    the following is busted because fwix sends back the wrong headers
 	    
 	    response header is text / html
 	    i expect application / javascript
+	    
 	    bug filed at http://bit.ly/quGNx6
 	  
 	  $.getJSON('http://geoapi.fwix.com/content.json?api_key=1640a4cf9096&content_types=status_updates&lat=' + e.latlng.lat.toFixed(3) + '&lng=' + e.latlng.lng.toFixed(3) + '&radius=100&callback=?', function (data) {
@@ -60,21 +61,25 @@ $(function(){
 		var latlngStr = '(' + e.latlng.lat.toFixed(3) + ', ' + e.latlng.lng.toFixed(3) + ')';
 		circle.setLatLng( e.latlng )
 		
-		$.getJSON('http://search.twitter.com/search.json?geocode=' + e.latlng.lat.toFixed(3) + ',' + e.latlng.lng.toFixed(3) + ',.25km&&rpp=100&callback=?', function (data) {
+		$.getJSON('http://search.twitter.com/search.json?geocode=' + e.latlng.lat.toFixed(3) + ',' + e.latlng.lng.toFixed(3) + ',1km&&rpp=100&callback=?', function (data) {
+		  
+		  
 		
 	    $('#results').empty();
 	    
 	    $.each(data.results, function(i, t){
 	    
+	        console.log( t.created_at );
+	        
 	        if(t.geo){
 	          
 	          var lat = t.geo.coordinates[0], lng = t.geo.coordinates[1];
 	          var marker = new L.Marker(new L.LatLng(lat, lng));
             map.addLayer(marker);
-	            
+	           
 	        }
 	        
-	        $('#results').append('<div style="padding: 5px;"><span><img src="' + t.profile_image_url + '" /></span><span style="vertical-align:top;">' + t.text + ' <br />'+ t.created_at +'</span></div')
+	        //$('#results').append('<div style="padding: 5px;"><span><img src="' + t.profile_image_url + '" /></span><span style="vertical-align:top;">' + t.text + ' <br />'+ t.created_at +'</span></div')
 	    
 	    })
 	
